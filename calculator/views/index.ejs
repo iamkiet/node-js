@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="assets/style.css">
+  <title>Calculator</title>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Calculator</h1>
+    <form name="calForm" action="/" method="get">
+      <div class="row">
+        <div class="col">
+          <label for="firstNum">first number</label>
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="text" id="firstNum" name="firstNum" value="<%= firstNum%>">
+          <!-- <input type="text" id="firstNum" name="firstNum" value=""> -->
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="radio" id="sum" name="typeCal" value="sum">
+          <label for="sum">sum</label>
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="radio" id="sub" name="typeCal" value="sub">
+          <label for="sub">sub</label>
+        </div> <!-- END COLUMN -->
+      </div> <!-- END ROW -->
+      <div class="row">
+        <div class="col">
+          <label for="secondNum">second number</label>
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="text" id="secondNum" name="secondNum" value="<%= secondNum%>">
+          <!-- <input type="text" id="secondNum" name="secondNum" value=""> -->
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="radio" id="mul" name="typeCal" value="mul">
+          <label for="mul">mul</label>
+        </div> <!-- END COLUMN -->
+        <div class="col">
+          <input type="radio" id="div" name="typeCal" value="div">
+          <label for="div">div</label>
+        </div> <!-- END COLUMN -->
+      </div> <!-- END ROW -->
+      <div class="row">
+        <div class="col">
+          <label for="secondNum">result</label>
+        </div>
+        <div class="col">
+          <input type="text" id="result" name="result" value="<%= result%>" readonly>
+        </div>
+        <div class="col">
+          <input type="submit" value="calculate">
+        </div>
+        <div class="col"></div>
+      </div> <!-- END ROW -->
+    </form> <!-- END FORM -->
+    <h3 id="notification"></h3>
+  </div> <!-- END WRAPPER -->
+
+  <!-- ---------- JS ---------- -->
+  <script src="assets/validate.js"></script>
+</body>
+</html>
