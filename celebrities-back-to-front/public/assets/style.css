@@ -1,0 +1,309 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#wrapper{
+  width: 810px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#wrapper > h1{
+  text-transform: uppercase;
+  text-align: center;
+  padding: 35px 0;
+  width: 100%;
+  font-size: 2.5em;
+}
+
+#button-interactive-card{
+  width: 100%;
+  display: flex;
+  
+
+}
+#add-menu-toggle, #edit-menu-toggle{
+  display: none;
+}
+#button-interactive-card label{
+  cursor: pointer;
+  text-transform: uppercase;
+  width: 50px;
+  height: 50px;
+  color: #fff;
+  background-color: #232323;
+  border: 2px solid #232323;
+  border-radius: 5px;
+  margin-right: 15px;
+  text-align: center;
+  line-height: 50px;
+  transition: .5s all ease;
+}
+#add-new-card{
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  transition: .25s height linear;
+}
+#add-new-card input[type="text"]{
+  display: block;
+}
+#add-menu-toggle:checked ~ #add-card{
+  height: 350px;
+  transition: .25s height linear;
+}
+
+#button-interactive-card label:hover{
+  color: #232323;
+  background-color: #fff;
+  transition: .5s all ease;
+}
+
+.card{
+  margin: 0;
+  width: 250px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.card img{
+  width: 250px;
+  height: 250px;
+}
+
+.card h1{
+  padding: 15px 0;
+  text-align: left;
+  font-size: 1.5em;
+}
+
+.card .buttons{
+  
+  position: absolute;
+  right: -124px;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  transition: .25s right linear;
+}
+
+.card .buttons button{
+  text-transform: uppercase;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  width: 60px;
+  height: 30px;
+  color: #fff;
+  background-color: #232323;
+  border: 1px solid #232323;
+  transition: .2s ease;
+}
+
+.card .buttons button:hover{
+  color: #232323;
+  background-color: #fff;
+  transition: .2s ease;
+}
+
+.card:hover img{
+  opacity: 0.5;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card:hover .buttons{
+  right: 0;
+  transition: .25s right linear;
+}
+.card:hover .read-more-trigger{
+  color: crimson;
+}
+
+/* checkbox input */
+.read-more-state{
+  display: none;
+}
+
+.content{
+  font-size: 0.8em;
+  margin-bottom: 35px;
+}
+
+/* span tag */
+.more-content{
+  opacity: 0;
+  font-size: 0;
+  transition: .25s ease-in-out;
+}
+
+/* when checkbox checked, span tag will appear */
+.read-more-state:checked ~ .content .more-content{
+  opacity: 1;
+  max-height: 999em;
+  font-size: inherit;
+  transition: .25s ease-in-out;
+}
+
+/* label tag */
+.read-more-trigger{
+  font-weight: bold;
+  text-align: center;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+/* toggle content of pseudo element */
+.read-more-state ~ .read-more-trigger::before{
+  content: "show more";
+}
+
+.read-more-state:checked ~ .read-more-trigger::before{
+  content: "hidden";
+}
+
+
+/* interactive card */
+
+#interactive{
+  margin: auto;
+  width: 100%;
+}
+
+#add-menu-toggle, #edit-menu-toggle{
+  display: none;
+}
+#add-label:hover{
+  color: lightseagreen;
+}
+#edit-label:hover{
+  color: crimson;
+}
+
+.labels{
+  display: inline-block;
+  margin: 15px 0;
+  cursor: pointer;
+  font-size: 1.5em;
+  padding: 10px;
+}
+
+#add-menu{
+  height: 0;
+  overflow: hidden;
+  transition: .25s height linear;
+}
+#edit-menu{
+  height: 0;
+  overflow: hidden;
+  transition: .25s height linear;
+}
+
+#add-menu-toggle:checked ~ #add-menu{
+  height: 430px;
+  transition: .25s height linear;
+  border: 1px solid #232323;
+}
+#edit-menu-toggle:checked ~ #edit-menu{
+  height: 500px;
+  transition: .25s height linear;
+  border: 1px solid #232323;
+}
+
+/* #add-menu-toggle, #edit-menu-toggle{
+  border: 1px solid transparent;
+} */
+
+.cart-interactive{
+  position: relative;
+  margin-bottom: 15px;
+  /* border: 0.1px solid #232323; */
+}
+
+.cart-interactive h2{
+  padding-left: 15%;
+  color: #fff;
+  background-color: #232323;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.cart-interactive .close-labels{
+  cursor: pointer;
+  position: absolute;
+  right: 15%;
+  top: 0;
+  color: #fff;
+  /* width: 50px; */
+  height: 50px;
+  line-height: 50px;
+}
+
+.cart-interactive .row{
+  width: 70%;
+  display: flex;
+  padding: 15px 0;
+  justify-content: space-between;
+  margin: 5px auto;
+}
+
+.cart-interactive .row label{
+  text-transform: uppercase;
+  line-height: 30px;
+  width: 30%;
+}
+.cart-interactive .row input[type="text"], textarea{
+  width: 80%;
+  font-size: 1.2em;
+  border: none;
+  border-bottom: 1px solid #232323;
+  outline: none;
+  height: 1em;
+}
+textarea{
+  height: 3.6em;
+}
+.cart-interactive .row:last-child{
+  justify-content: flex-end;
+}
+.cart-interactive .row:last-child button{
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 1em;
+  outline: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #232323;
+  border: 1px solid #232323;
+  transition: .25s all ease-in-out;
+  margin-left: 15px;
+}
+
+#add-btn:hover{
+  background-color: lightseagreen;
+  border: 1px solid lightseagreen;
+}
+#edit-btn:hover{
+  background-color: crimson;
+  border: 1px solid crimson;
+}
+.cart-interactive .row:last-child button:last-child:hover{
+  background-color: orangered;
+  border: 1px solid orangered;
+}
+
+.notification{
+  margin: auto;
+  width: 70%;
+  overflow: hidden;
+  height: 50px;
+  line-height: 20px;
+  text-align: center;
+  color: red;
+}
