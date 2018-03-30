@@ -1,25 +1,28 @@
 let wrapper = document.getElementById("wrapper");
 
-// Load data from db
-window.onload = () => {
-  readAllCardHandler(data => {
+window.onload = async () => {
+  try {
+    let data = await readAllCardHandler();
     if (data.length > 0) {
       loadAllCard(data);
     }
-  })  
+  } catch(err) {
+    console.log(`${err.statusText} - Error in readAllCardHandler`);
+  }
 }
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------------
 
 // ADD EVENT FOR EDIT AND ADD BUTTON
-document.getElementById("edit-btn").addEventListener('click', (e) => {
+document.getElementById("edit-btn").addEventListener('click', async (e) => {
   let eid =           document.getElementById("e-id");
   let ename =         document.getElementById("e-name");
   let eimage_url =    document.getElementById("e-image_url");
   let edescription =  document.getElementById("e-description");
-  let notification = document.getElementById("edit-notification");
-  
-  readCardByIdHandler(eid.value, (data) => {
+  let notification =  document.getElementById("edit-notification");
+  try {
+    let data = await readCardByIdHandler(eid.value);
     if(data.length < 1){
       notification.textContent = "id not existed";
       e.target.preventDefault;
@@ -31,17 +34,22 @@ document.getElementById("edit-btn").addEventListener('click', (e) => {
         description: edescription.value
       }
 
-      updateCardHandler(eid.value, newData, data => {
+      try {
+        let dataUpdated = await updateCardHandler(eid.value, newData);
         document.querySelector(`#post-${eid.value}`).previousSibling.textContent = ename.value;
         document.querySelector(`#post-${eid.value}`).previousSibling.previousSibling.setAttribute("src", eimage_url.value);
         document.querySelector(`#post-${eid.value}`).nextSibling.innerHTML = edescription.value.substring(0, 90) + '<span class="more-content">' + edescription.value.substring(90, edescription.value.length) + '</span>';
-      })
-    }
-  })
-})
+      } catch {
+        console.log(`${err.statusText} - Error in updateCardHandler`);
+      }
+    };
+  } catch {
+    console.log(`${err.statusText} - Error in readCardByIdHandler`);
+  }
+});
 
 
-document.getElementById("add-btn").addEventListener('click', (e) => {
+document.getElementById("add-btn").addEventListener('click', async (e) => {
   let name =        document.getElementById("a-name");
   let image_url =   document.getElementById("a-image_url");
   let description = document.getElementById("a-description");
@@ -56,10 +64,14 @@ document.getElementById("add-btn").addEventListener('click', (e) => {
     name.value = "";
     image_url.value = "";
     description.value = "";
-    createCardHandler(newData, data => {
+    try {
+      let data = await createCardHandler(newData);
       newData.id = data.insertId;
       wrapper.appendChild(createCard(newData))
-    })
+    } catch(err) {
+      console.log(`${err.statusText} - Error in createCardHandler`);
+    }
+    
   } else{
     notification.textContent = "somethings is null";
     notification.style.color = "red";
@@ -127,12 +139,16 @@ function createCard(item){
   let deleteBtn = document.createElement('button');
   deleteBtn.setAttribute('class', 'delete-btn');
   deleteBtn.textContent = "delete";
-  deleteBtn.addEventListener('click', (e) => {
-    deleteCardHandler(item.id, (data) => {
-      if (data != null) {
+  deleteBtn.addEventListener('click', async (e) => {
+    try {
+      let dataDeleted = await deleteCardHandler(item.id);
+      if (dataDeleted != null) {
         console.log("delete success");
-      }
-    })
+      };
+    } catch {
+      console.log(`${err.statusText} - Error in deleteCardHandler`);
+    }
+    
     // remove element from js
     wrapper.removeChild(e.target.parentNode.parentNode);
   })
