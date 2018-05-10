@@ -8,6 +8,8 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Headers: X-Requested-With');
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 });
 
@@ -21,6 +23,6 @@ app.use('/static', express.static(__dirname + '/public/assets'));
 app.use('', index);
 app.use('/api', celebrities);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!");
+app.listen(3001, () => {
+  console.log("Server is running on port 3001!");
 })
