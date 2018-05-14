@@ -1,81 +1,46 @@
 var accountModel = require('../models/account');
-let type_response = require('./type_response');
+let response = require('./response');
 
-exports.createAccount = function (req, res) {
-    // Create and Save a new celebrity
-    accountModel.createAccount(req.body, function (err, data) {
-        if (err) {
-            res.status(400).send(err);
-            return;
-        }
-        res.status(201).send(data);
-    })
+createAccountController = (req, res) => {
+    accountModel.createAccount(req.body)
+    .then(data => res.json(response.RES_DEFAULT('CREATE_ACCOUNT', 201, 'SUCESS', data)))
+    .catch(err => res.json(response.RES_DEFAULT('CREATE_ACCOUNT', 400, 'FAIL', err)))
 };
 
-exports.findAllAccount = function (req, res) {
+findAllAccountController = (req, res) => {
     // Retrieve and return all notes from the database.
-    accountModel.findAllAccount(function (err, data) {
-            if (err) {
-                res.status(400).send(err);
-                return;
-            }
-            res.send(data);
-        }
-    );
+    accountModel.findAllAccount()
+    .then(data => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 201, 'SUCESS', data)))
+    .catch(err => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 400, 'FAIL', err)))
 };
 
-exports.findOneAccount = function (req, res) {
-    // Find a single note with a noteId
-    accountModel.findOneAccount(req.params.accountId, (err, data) => {
-        if (err) {
-            res.status(400).send(err);
-            return;
-        }
-        res.send(data);
-    });
-};
-
-exports.updateAccount = function (req, res) {
-    // Update a note identified by the noteId in the request
-    let { accountId } = req.params;
-    accountModel.updateAccount(accountId, req.body, (err, data) => {
-        if(err){
-            res.status(400).send(err);
-            return
-        }
-        res.send(data)
+findOneAccountController = (req, res) => {
+    accountModel.findOneAccount(req.params.account_id)
+    .then(data => {
+        data.length > 0 ? res.json(response.RES_DEFAULT('FIND_ACCOUNT', 201, 'SUCESS', data)) : res.json(response.RES_DEFAULT('FIND_ACCOUNT', 404, 'FAIL', data))
     })
+    .catch(err => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 400, 'FAIL', err)))
 };
 
-exports.deleteAccount = function (req, res) {
-    let { MaTaiKhoan } = req.account[0];
-    // Delete a note with the specified noteId in the request
-    accountModel.deleteAccount(MaTaiKhoan, (err, data) => {
-        if(err){
-            res.status(400).send(err);
-            return
-        }
-        res.send({
-            data: type_response.responseSuccess("DELETE")
-        })
-    })
+updateAccountController = (req, res) => {
+    let account = req.body;
+    account.MaTaiKhoan = req.params.account_id;
+    accountModel.updateAccount(account)
+    .then(data => res.json(response.RES_DEFAULT('UPDATE_ACCOUNT', 201, 'SUCESS', data)))
+    .catch(err => res.json(response.RES_DEFAULT('UPDATE_ACCOUNT', 400, 'FAIL', err)))
 };
 
-exports.validateAccount = (req, res, next) => {
-    let { accountId } = req.params;
-    accountModel.findOneAccount(accountId, (err, data) => {
-        if (err) {
-            res.status(400).send(err);
-            return;
-        }
-        if (data.length < 1) {
-            res.send({
-                "STATUS": 404,
-                "MESSAGE": "ACCOUNT NOT FOUND"
-            })
-        } else {
-            req.account = data
-            next();
-        }
-    });
+deleteAccountController = (req, res) => {
+    let { account_id } = req.params;
+    accountModel.deleteAccount(account_id)
+    .then(data => res.json(response.RES_DEFAULT('DELETE_ACCOUNT', 201, 'SUCESS', data)))
+    .catch(err => res.json(response.RES_DEFAULT('DELETE_ACCOUNT', 400, 'FAIL', err)))
+};
+
+module.exports = {
+    createAccountController,
+    findAllAccountController,
+    findOneAccountController,
+    updateAccountController,
+    deleteAccountController
 }

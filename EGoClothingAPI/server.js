@@ -16,6 +16,7 @@ app.use(function(req, res, next) {
 const index = require('./routes/index');
 const account = require('./routes/account');
 const product = require('./routes/product');
+const productType = require('./routes/product_type');
 
 // app.set("view engine", "ejs");
 
@@ -24,6 +25,7 @@ const product = require('./routes/product');
 app.use('/api/v1', index);
 app.use('/api/v1/account', account);
 app.use('/api/v1/product', product);
+app.use('/api/v1/product_type', productType);
 
 app.listen(3333, () => {
   console.log("Server is running on port 3333!");
