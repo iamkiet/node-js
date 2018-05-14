@@ -51,7 +51,6 @@ updateProduct = (product) => {
     });
   })
 }
-
 // delete
 
 deleteProduct = (id) => {

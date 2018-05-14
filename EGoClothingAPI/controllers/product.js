@@ -17,6 +17,11 @@ findAllProductController = (req, res) => {
   .then(data => res.json(response.RES_DEFAULT('FIND_PRODUCT', 201, 'SUCESS', data)))
   .catch(err => res.json(response.RES_DEFAULT('FIND_PRODUCT', 400, 'FAIL', err)))
 };
+findProductByIdController = (req, res) => {
+  productModel.findProductById(req.params.product_id)
+  .then(data => res.json(response.RES_DEFAULT('FIND_PRODUCT', 201, 'SUCESS', data)))
+  .catch(err => res.json(response.RES_DEFAULT('FIND_PRODUCT', 400, 'FAIL', err)))
+};
 
 // find by id
 // find by product_type
@@ -117,6 +122,7 @@ validateProductController = (req, res, next) => {
 module.exports = {
   createProductController,
   findAllProductController,
+  findProductByIdController,
   updateProductController,
   deleteProductController,
   validateProductController

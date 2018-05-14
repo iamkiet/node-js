@@ -3,7 +3,7 @@ var db = require('./manageDB');
 // create product_type
 createProductType = (product_type) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("insert into loailoaisanpham (TenLoaiSanPham) values (?)", product_type.TenLoaiSanPham,
+    db.executeQuery("insert into loaisanpham (TenLoaiSanPham) values (?)", product_type.TenLoaiSanPham,
       (err, data) => {
         if (err) reject(err)
         resolve(data)
@@ -37,7 +37,8 @@ findProductTypeById = (id) => {
 // update product_type
 updateProductType = (product_type) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("update loaisanpham set TenLoaiSanPham = ?", product_type.TenLoaiSanPham,
+    db.executeQuery("update loaisanpham set TenLoaiSanPham = ? where MaLoaiSanPham = ?",
+    [product_type.TenLoaiSanPham, product_type.MaLoaiSanPham],
     (err, data) => {
       if (err) reject(err)
       resolve(data)

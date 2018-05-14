@@ -25,15 +25,9 @@ findProductTypeByIdController = (req, res) => {
 };
 // update
 updateProductTypeController = (req, res) => {
-  let product_type = req.body;
-  if (!product_type.MaLoaiSanPham) {
-    product_type.MaLoaiSanPham = 1
-  }
-  if (!product_type.MaHangSanXuat) {
-    product_type.MaHangSanXuat = 1
-  }
-  product_type.MaLoaiSanPham = req.params.product_type_id
-  productTypeModel.updateProductType(product_type)
+  let productType = req.body;
+  productType.MaLoaiSanPham = req.params.product_type_id
+  productTypeModel.updateProductType(productType)
   .then(data => res.json(response.RES_DEFAULT('UPDATE_PRODUCT', 201, 'SUCESS', data)))
   .catch(err => res.json(response.RES_DEFAULT('UPDATE_PRODUCT', 400, 'FAIL', err)))
 };
