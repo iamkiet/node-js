@@ -1,7 +1,20 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
+const bodyParser = require('body-parser');
+
 const app = express();
+
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: false
+}));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get('/api', (req, res) => {
   res.json({
@@ -12,8 +25,9 @@ app.get('/api', (req, res) => {
 app.post('/api/posts', verifyToken, (req, res) => {  
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      console.log(err);
-      res.sendStatus(403);
+      res.json({
+        message: err.message
+      })
     } else {
       res.json({
         message: 'Post created...',
@@ -24,14 +38,12 @@ app.post('/api/posts', verifyToken, (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  // Mock user
+  let { username, password } = req.body;
   const user = {
-    id: 1, 
-    username: 'brad',
-    email: 'brad@gmail.com'
+    username,
+    password
   }
-
-  jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+  jwt.sign({user}, 'secretkey', { expiresIn: '300s' }, (err, token) => {
     res.json({
       token
     });
@@ -57,8 +69,7 @@ function verifyToken(req, res, next) {
     // Next middleware
     next();
   } else {
-    // Forbidden
-    res.sendStatus(403);
+    res.sendStatus(403)
   }
 
 }

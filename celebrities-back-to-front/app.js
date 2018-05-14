@@ -20,8 +20,8 @@ app.set("view engine", "ejs");
 
 app.use('/static', express.static(__dirname + '/public/assets'));
 
-app.use('', index);
-app.use('/api', celebrities);
+app.use('/', index);
+app.use('/api/celebrities', celebrities);
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001!");

@@ -13,9 +13,9 @@ exports.executeQuery = function (query, callback) {
                 callback(null, rows);
             }
         });
-        // connection.on('error', function (err) {
-        //     callback(err)
-        // });
+        connection.on('error', function (err) {
+            callback(err)
+        });
     });
 }
 exports.executeQuery = function (query, data, callback) {
