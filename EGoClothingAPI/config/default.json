@@ -1,0 +1,24 @@
+{
+  "Local": {
+    "dbConfig": {
+      "connectionLimit": 100,
+      "host": "localhost",
+      "user": "root",
+      "port": 3306,
+      "database": "EGoClothingDB_ENG",
+      "password": " ",
+      "debug": false
+    }
+  },
+  "Production": {
+    "dbConfig": {
+      "connectionLimit": 100,
+      "host": "sql12.freemysqlhosting.net",
+      "user": "sql12238251",
+      "database": "sql12238251",
+      "password": "WlbFVAc1Jc",
+      "port": 3306,
+      "debug": false
+    }
+  }
+}

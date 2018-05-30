@@ -3,8 +3,8 @@ var db = require('./manageDB');
 // create product
 createProduct = (product) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("insert into sanpham (TenSanPham, HinhURL, GiaSanPham, MoTa, MaLoaiSanPham, MaHangSanXuat) values (?, ?, ?, ?, ?, ?)",
-      [product.TenSanPham, product.HinhURL, product.GiaSanPham, product.MoTa, product.MaLoaiSanPham, product.MaHangSanXuat],
+    db.executeQuery("insert into product (Name, Img_URL, Price, Description, Category_Id, Brand_Id) values (?, ?, ?, ?, ?, ?)",
+      [product.Name, product.Img_URL, product.Price, product.Description, product.Category_Id, product.Brand_Id],
       (err, data) => {
         if (err) reject(err)
         resolve(data)
@@ -15,9 +15,21 @@ createProduct = (product) => {
 
 // read product
 // find all
-findAllProduct = () => {
+findAllProduct = (querySearch) => {
+  if (querySearch.limit && querySearch.offset) {
+    let limit = parseInt(querySearch.limit)
+    let offset = parseInt(querySearch.offset)
+    return new Promise((resolve, reject) => {
+      db.executeQuery("select * from product where IsRemoved = 0 limit ? offset ?",
+      [limit, offset], (err, data) => {
+          if (err) reject(err)
+          resolve(data)
+        }
+      );
+    })
+  }
   return new Promise((resolve, reject) => {
-    db.executeQuery("select * from sanpham",
+    db.executeQuery("select * from product where IsRemoved = 0",
       (err, data) => {
         if (err) reject(err)
         resolve(data)
@@ -28,7 +40,7 @@ findAllProduct = () => {
 // find by id
 findProductById = (id) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("select * from sanpham where MaSanPham = ?", id,
+    db.executeQuery("select * from product where Id = ?", id,
       (err, data) => {
         if (err) reject(err)
         resolve(data)
@@ -36,15 +48,35 @@ findProductById = (id) => {
     );
   })
 }
-// find by product_type
-// find by product_name
-// find by company_name
+
+
+findProductByNewest = () => {
+  return new Promise((resolve, reject) => {
+    db.executeQuery("select * from product where IsRemoved = 0 order by Import_Date desc limit 9 offset 0",
+      (err, data) => {
+        if (err) reject(err)
+        resolve(data)
+      }
+    );
+  })
+}
+
+findProductByFeature = () => {
+  return new Promise((resolve, reject) => {
+    db.executeQuery("select * from product where IsRemoved = 0 order by InStock desc limit 9 offset 0",
+      (err, data) => {
+        if (err) reject(err)
+        resolve(data)
+      }
+    );
+  })
+}
 
 // update product
 updateProduct = (product) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("update sanpham set TenSanPham = ?, HinhURL = ?, GiaSanPham = ?, MoTa = ?, MaLoaiSanPham = ?, MaHangSanXuat = ?, BiXoa = ? where MaSanPham = ?",
-    [product.TenSanPham, product.HinhURL, product.GiaSanPham, product.MoTa, product.MaLoaiSanPham, product.MaHangSanXuat, product.BiXoa, product.MaSanPham],
+    db.executeQuery("update product set Name = ?, Img_URL = ?, Price = ?, Description = ?, Category_Id = ?, Branch_Id = ?, IsRemoved = ? where Id = ?",
+    [product.Name, product.Img_URL, product.Price, product.Description, product.Category_Id, product.Branch_Id, product.IsRemoved, product.Id],
     (err, data) => {
       if (err) reject(err)
       resolve(data)
@@ -55,7 +87,7 @@ updateProduct = (product) => {
 
 deleteProduct = (id) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("update sanpham set BiXoa = 1 where MaSanPham = ?", id,
+    db.executeQuery("update product set IsRemoved = 1 where Id = ?", id,
     (err, data) => {
       if (err) reject(err)
       resolve(data)
@@ -64,107 +96,16 @@ deleteProduct = (id) => {
   
 }
 
-validateProduct = (id) => {
-  return new Promise((resolve, reject) => {
-    db.executeQuery("select * from sanpham where MaSanPham = ? and BiXoa = 0", id,
-    (err, data) => {
-      if (err) reject(err)
-      resolve(data)
-    })
-  })
-}
-
 module.exports = {
-  createProduct,
   findAllProduct,
   findProductById,
+  findProductByNewest,
+  findProductByFeature,
+
+  createProduct,
   updateProduct,
-  deleteProduct,
-  validateProduct
+  deleteProduct
 }
 
 
 
-
-
-
-
-
-
-// exports.findOneProduct = function(id, callback) {
-//   db.executeQuery("select * from taikhoan where LoaiSanPham = ", id, callback);
-// }
-
-
-// exports.findProductByType = (type_name, limit, offset) => {
-//   if (limit === undefined) {
-//     limit = 5;
-//   }
-//   if (offset === undefined) {
-//     offset = 0;
-//   }
-//   return new Promise((resolve, reject) => {
-//     db.executeQuery(`SELECT * FROM sanpham join loaisanpham on sanpham.MaLoaiSanPham = loaisanpham.MaLoaiSanPham where TenLoaiSanPham = ? limit ? offset ?`, [type_name, parseInt(limit), parseInt(offset)],
-//       (err, data) => {
-//         if (err) { reject(err) }
-//         resolve(data)
-//     })
-//   })
-// }
-
-// exports.findProductByCompany = (company_name, limit, offset) => {
-//   if (limit === undefined) {
-//     limit = 5;
-//   }
-//   if (offset === undefined) {
-//     offset = 0;
-//   }
-//   return new Promise((resolve, reject) => {
-//     db.executeQuery(`SELECT * FROM sanpham join hangsanxuat on sanpham.MaHangSanXuat = hangsanxuat.MaHangSanXuat where TenHangSanXuat = ? limit ? offset ?`, [company_name, parseInt(limit), parseInt(offset)],
-//       (err, data) => {
-//         if (err) { reject(err) }
-//         resolve(data)
-//     })
-//   })
-// }
-
-exports.findProductByName = (TenSanPham, callback) => {
-  return new Promise((resolve, reject) => {
-    db.executeQuery("SELECT * FROM sanpham where TenSanPham = ?", TenSanPham, (err, data) => {
-      if (err) reject(err)
-      resolve(data)
-    })
-  })
-
-}
-
-// exports.createProduct = function(Product, callback){
-//   db.executeQuery("insert into taikhoan (TenDangNhap, MatKhau, TenHienThi, DiaChi, DienThoai, Email) values (?, ?, ?, ?, ?, ?)",
-//                   [
-//                     Product.TenDangNhap,
-//                     Product.MatKhau,
-//                     Product.TenHienThi, 
-//                     Product.DiaChi, 
-//                     Product.DienThoai, 
-//                     Product.Email], 
-//                     callback
-//                   );
-// }
-
-// exports.updateProduct = function(id, Product, callback){
-//   db.executeQuery("update taikhoan set TenDangNhap = ?, MatKhau = ?, TenHienThi = ?, DiaChi = ?, DienThoai = ?, Email = ?, BiXoa = ?, MaLoaiTaiKhoan = 1 where MaTaiKhoan = ?",
-//                   [
-//                     Product.TenDangNhap,
-//                     Product.MatKhau,
-//                     Product.TenHienThi,
-//                     Product.DiaChi,
-//                     Product.DienThoai,
-//                     Product.Email,
-//                     Product.BiXoa,
-//                     id  
-//                   ], callback);
-// }
-
-// exports.deleteProduct = (id, callback) => {
-//   db.executeQuery("update taikhoan set BiXoa = 1 where MaTaiKhoan = ?", id, callback);
-// }

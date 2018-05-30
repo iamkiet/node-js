@@ -1,44 +1,65 @@
-var accountModel = require('../models/account');
-let response = require('./response');
+let accountModel = require('../models/account');
+let jwt = require('jsonwebtoken');
+let { RES_DATA_SUCCESS, RES_DATA_FAIL, INVALID, EXIST, NOT_EXIST, NOT_AVAILABLE } = require('./response');
+
+
 
 createAccountController = (req, res) => {
-    accountModel.createAccount(req.body)
-    .then(data => res.json(response.RES_DEFAULT('CREATE_ACCOUNT', 201, 'SUCESS', data)))
-    .catch(err => res.json(response.RES_DEFAULT('CREATE_ACCOUNT', 400, 'FAIL', err)))
+    accountModel.createAccount(req.body.user)
+        .then(data => res.json(RES_DATA_SUCCESS('create account success', 201, data)))
+        .catch(err => res.json(RES_DATA_FAIL('create account fail', 400, err)))
 };
 
 findAllAccountController = (req, res) => {
-    // Retrieve and return all notes from the database.
     accountModel.findAllAccount()
-    .then(data => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 201, 'SUCESS', data)))
-    .catch(err => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 400, 'FAIL', err)))
+        .then(data => res.json(RES_DATA_SUCCESS('find account success', 200, data)))
+        .catch(err => res.json(RES_DATA_FAIL('find all account fail', 400, err)))
 };
 
 findOneAccountController = (req, res) => {
     accountModel.findOneAccount(req.params.account_id)
-    .then(data => {
-        data.length > 0 ? res.json(response.RES_DEFAULT('FIND_ACCOUNT', 201, 'SUCESS', data)) : res.json(response.RES_DEFAULT('FIND_ACCOUNT', 404, 'FAIL', data))
-    })
-    .catch(err => res.json(response.RES_DEFAULT('FIND_ACCOUNT', 400, 'FAIL', err)))
+        .then(data => {
+            data.length > 0 ? res.json(RES_DATA_SUCCESS('find account success', 200, data)) : res.json(RES_DATA_FAIL('find account by id fail', 400, err))
+        })
+        .catch(err => res.json(RES_DATA_FAIL('find account by id fail', 400, err)))
 };
+
+findAccountByUsernameController = (req, res) => {
+    accountModel.findAccountByUsername(req.params.account_username)
+        .then(data => res.json(RES_DATA_SUCCESS('find account success', 200, data)))
+        .catch(err => res.json(RES_DATA_FAIL('find account by username fail', 400, err)))
+}
 
 updateAccountController = (req, res) => {
     let account = req.body;
     account.MaTaiKhoan = req.params.account_id;
     accountModel.updateAccount(account)
-    .then(data => res.json(response.RES_DEFAULT('UPDATE_ACCOUNT', 201, 'SUCESS', data)))
-    .catch(err => res.json(response.RES_DEFAULT('UPDATE_ACCOUNT', 400, 'FAIL', err)))
+        .then(data => res.json(RES_DATA_SUCCESS('update account success', 201, data)))
+        .catch(err => res.json(RES_DATA_FAIL('update account fail', 400, err)))
 };
 
 deleteAccountController = (req, res) => {
     let { account_id } = req.params;
     accountModel.deleteAccount(account_id)
-    .then(data => res.json(response.RES_DEFAULT('DELETE_ACCOUNT', 201, 'SUCESS', data)))
-    .catch(err => res.json(response.RES_DEFAULT('DELETE_ACCOUNT', 400, 'FAIL', err)))
+        .then(data => res.json(RES_DATA_SUCCESS('delete account success', 201, data)))
+        .catch(err => res.json(RES_DATA_FAIL('delete account fail', 400, err)))
+};
+
+loginAccountController = (req, res) => {
+    let { user } = req;
+    jwt.sign({ user }, 'secretkey', { expiresIn: '600s' }, (err, token) => {
+        res.json({
+            status: 201,
+            message: 'login success',
+            token
+        });
+    });
 };
 
 module.exports = {
+    loginAccountController,
     createAccountController,
+    findAccountByUsernameController,
     findAllAccountController,
     findOneAccountController,
     updateAccountController,
