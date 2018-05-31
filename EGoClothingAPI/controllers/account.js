@@ -10,14 +10,14 @@ createAccountController = (req, res) => {
         .catch(err => res.json(RES_DATA_FAIL('create account fail', 400, err)))
 };
 
-findAllAccountController = (req, res) => {
-    accountModel.findAllAccount()
+findAccountsController = (req, res) => {
+    accountModel.findAccounts()
         .then(data => res.json(RES_DATA_SUCCESS('find account success', 200, data)))
         .catch(err => res.json(RES_DATA_FAIL('find all account fail', 400, err)))
 };
 
-findOneAccountController = (req, res) => {
-    accountModel.findOneAccount(req.params.account_id)
+findAccountByIdController = (req, res) => {
+    accountModel.findAccountById(req.params.account_id)
         .then(data => {
             data.length > 0 ? res.json(RES_DATA_SUCCESS('find account success', 200, data)) : res.json(RES_DATA_FAIL('find account by id fail', 400, err))
         })
@@ -60,8 +60,8 @@ module.exports = {
     loginAccountController,
     createAccountController,
     findAccountByUsernameController,
-    findAllAccountController,
-    findOneAccountController,
+    findAccountsController,
+    findAccountByIdController,
     updateAccountController,
     deleteAccountController
 }

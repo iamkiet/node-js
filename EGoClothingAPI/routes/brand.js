@@ -1,32 +1,32 @@
 let express = require('express');
 let router = express.Router();
-let category = require('../controllers/category');
+let brand = require('../controllers/brand');
 let mw = require('../controllers/middle_ware');
 
 // GET ALL CATEGORY
 router.get('/',
-  category.findCategoriesController);
+  brand.findBrandsController);
 
 // GET CATEGORY BY ID
-router.get('/:category_id',
-  category.findCategoryByIdController);
+router.get('/:brand_id',
+  brand.findBrandByIdController);
 
 // CREATE CATEGORY
 router.post('/',
   mw.verifyTokenController,
   mw.verifyAdminController,
-  category.createCategoryController);
+  brand.createBrandController);
 
 // UPDATE CATEGORY
-router.put('/:category_id',
+router.put('/:brand_id',
   mw.verifyTokenController,
   mw.verifyAdminController,
-  category.updateCategoryController);
+  brand.updateBrandController);
 
 // DELETE CATEGORY
-router.delete('/:category_id',
+router.delete('/:brand_id',
   mw.verifyTokenController,
   mw.verifyAdminController,
-  category.deleteCategoryController);
+  brand.deleteBrandController);
 
 module.exports = router;

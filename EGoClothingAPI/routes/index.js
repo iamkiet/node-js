@@ -1,14 +1,11 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-const account = require('../routes/account');
-
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.json({
-    message: 'index'
-  })
+// SERVER STATIC FILE
+router.get('/', (req, res) => {
+  res.render('index', {
+    message: 'wellcome egoclothing api'
+  });
 });
 
 module.exports = router;

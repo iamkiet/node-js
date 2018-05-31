@@ -12,7 +12,7 @@ createAccount = (account) => {
   })
 }
 
-findOneAccount = (id) => {
+findAccountById = (id) => {
   return new Promise((resolve, reject) => {
     db.executeQuery("select * from account where Id = ?", id,
     (err, data) => {
@@ -35,7 +35,7 @@ findAccountByUsername = (username) => {
 
 
 
-findAllAccount = (callback) => {
+findAccounts = (callback) => {
   return new Promise((resolve, reject) => {
     db.executeQuery("select * from account where IsRemoved = 0",
     (err, data) => {
@@ -71,9 +71,9 @@ deleteAccount = (id) => {
 
 module.exports = {
   createAccount,
-  findOneAccount,
+  findAccountById,
   findAccountByUsername,
-  findAllAccount,
+  findAccounts,
   updateAccount,
   deleteAccount,
 }

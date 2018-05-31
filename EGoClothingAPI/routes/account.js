@@ -1,27 +1,45 @@
-var express = require('express');
-var router = express.Router();
-var account = require('../controllers/account');
-let middleWare = require('../controllers/middle_ware');
+let express = require('express');
+let router = express.Router();
 
-router.post('/register', middleWare.verifyAccountExistController, account.createAccountController);
+let account = require('../controllers/account');
+let mw = require('../controllers/middle_ware');
 
-// login sucer
-router.post('/login', middleWare.verifyAccountNotExistController, account.loginAccountController);
+// GET ALL ACCOUNT
+router.get('/',
+  mw.verifyTokenController,
+  mw.verifyAdminController,
+  account.findAccountsController),
 
-router.post('/', middleWare.verifyTokenController, middleWare.verifyAdminController, account.createAccountController),
+// GET ACCOUNT BY USERNAME
+router.get('/username/:account_username',
+  account.findAccountByUsernameController);
 
-// Retrieve all account
-router.get('/', middleWare.verifyTokenController, middleWare.verifyAdminController, account.findAllAccountController),
+// GET ACCOUNT BY ID
+router.get('/:account_id',
+  account.findAccountByIdController),
+ 
+// LOGIN ACCOUNT
+router.post('/login',
+  mw.verifyAccountNotExistController,
+  account.loginAccountController);
 
-router.get('/username/:account_username', account.findAccountByUsernameController);
+// CREATE ACCOUNT
+router.post('/register',
+  mw.verifyAccountExistController,
+  account.createAccountController);
 
-// Retrieve a single Note with noteId
-router.get('/:account_id', account.findOneAccountController),
+// UPDATE ACCOUNT
+router.put('/:account_id',
+  mw.verifyTokenController,
+  mw.verifyAdminController,
+  mw.verifyAccountIdNotExistController,
+  account.updateAccountController),
 
-// Update a Note with celebrityId
-router.put('/:account_id', middleWare.verifyTokenController, middleWare.verifyAdminController, middleWare.verifyAccountIdNotExistController, account.updateAccountController),
-
-// Delete a Note with celebrityId
-router.delete('/:account_id', middleWare.verifyTokenController, middleWare.verifyAdminController, middleWare.verifyAccountIdNotExistController, account.deleteAccountController)
+// DELETE ACCOUNT
+router.delete('/:account_id',
+  mw.verifyTokenController,
+  mw.verifyAdminController,
+  mw.verifyAccountIdNotExistController,
+  account.deleteAccountController)
 
 module.exports = router;

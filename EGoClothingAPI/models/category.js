@@ -55,15 +55,6 @@ deleteCategory = (id) => {
     })
   })
 }
-validateCategory = (id) => {
-  return new Promise((resolve, reject) => {
-    db.executeQuery("select * from category where Category_Id = ? and Category_IsRemoved = 0", id,
-    (err, data) => {
-      if (err) reject(err)
-      resolve(data)
-    })
-  })
-}
 
 module.exports = {
   createCategory,
@@ -71,5 +62,4 @@ module.exports = {
   findCategoryById,
   updateCategory,
   deleteCategory,
-  validateCategory
 }

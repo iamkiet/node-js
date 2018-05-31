@@ -37,25 +37,10 @@ deleteCategoryController = (req, res) => {
     .catch(err => res.json(RES_DATA_FAIL('delete category fail', 400, err)))
 };
 
-validateCategoryController = (req, res, next) => {
-  categoryModel.validateCategory(req.params.category_id)
-  .then(data =>  {
-    console.log(data);
-    next()
-  })
-  .catch(err => {
-    res.send({
-      message: 'ERROR VALIDATE PRODUCT',
-      error: err
-    })
-  }) 
-}
-
 module.exports = {
   createCategoryController,
   findCategoriesController,
   findCategoryByIdController,
   updateCategoryController,
   deleteCategoryController,
-  validateCategoryController
 }
