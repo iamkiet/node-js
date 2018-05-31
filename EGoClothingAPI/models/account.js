@@ -48,7 +48,7 @@ findAccounts = (callback) => {
 
 updateAccount = (account) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("update account set Username = ?, Password = ?, Name = ?, Address = ?, PhoneNumber = ?, Email = ?, IsRemoved = ?, Id = 1 where Id = ?",
+    db.executeQuery("update account set Username = ?, Password = ?, Name = ?, Address = ?, PhoneNumber = ?, Email = ?, IsRemoved = ? where Id = ?",
     [account.Username, account.Password, account.Name, account.Address, account.PhoneNumber, account.Email, account.IsRemoved, account.Id], 
     (err, data) => {
       if (err) reject(err);

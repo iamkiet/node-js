@@ -75,8 +75,8 @@ findProductByFeature = () => {
 // update product
 updateProduct = (product) => {
   return new Promise((resolve, reject) => {
-    db.executeQuery("update product set Name = ?, Img_URL = ?, Price = ?, Description = ?, Category_Id = ?, Branch_Id = ?, IsRemoved = ? where Id = ?",
-    [product.Name, product.Img_URL, product.Price, product.Description, product.Category_Id, product.Branch_Id, product.IsRemoved, product.Id],
+    db.executeQuery("update product set Name = ?, Img_URL = ?, Price = ?, InStock = ?, Description = ?, Category_Id = ?, Brand_Id = ? where Id = ?",
+    [product.Name, product.Img_URL, product.Price, product.InStock, product.Description, product.Category_Id, product.Brand_Id, product.Id],
     (err, data) => {
       if (err) reject(err)
       resolve(data)

@@ -6,7 +6,7 @@ let accountModel = require('../models/account');
 // MIDDLE_WARE: Support Register Account
 verifyAccountIdNotExistController = (req, res, next) => {
     let id = req.params.account_id;
-    accountModel.findOneAccount(id)
+    accountModel.findAccountById(id)
         .then(data => data[0])
         .then(data => {
             if (!data) {
