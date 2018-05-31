@@ -135,9 +135,11 @@ CREATE TABLE `comment` (
   `Name` varchar(50) DEFAULT NULL,
   `Comment` varchar(200) DEFAULT NULL,
   `Account_Id` int(11) DEFAULT NULL,
+  `Product_Id` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `fk_Comment_Account_idx` (`Account_Id`),
-  CONSTRAINT `fk_Comment_Account` FOREIGN KEY (`Account_Id`) REFERENCES `account` (`Id`)
+  CONSTRAINT `fk_Comment_Account` FOREIGN KEY (`Account_Id`) REFERENCES `account` (`Id`),
+  CONSTRAINT `fk_Comment_Product` FOREIGN KEY (`Product_Id`) references `product` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -147,7 +149,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (1,NULL,'ABC',1),(2,'Lê Phát Lộc','ABX',2);
+INSERT INTO `comment` VALUES (1,NULL,'ABC',1,1),(2,'Lê Phát Lộc','ABX',2,2);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
