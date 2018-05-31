@@ -29,6 +29,7 @@ const product = require('./routes/product');
 const order = require('./routes/order');
 const category = require('./routes/category');
 const brand = require('./routes/brand');
+const comment = require('./routes/comment');
 
 // MAP API
 app.use('/', index);
@@ -37,6 +38,7 @@ app.use('/api/v1/product', product);
 app.use('/api/v1/order', order);
 app.use('/api/v1/category', category);
 app.use('/api/v1/brand', brand);
+app.use('/api/v1/comment', comment);
 
 
 app.listen(port, () => {

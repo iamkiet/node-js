@@ -13,13 +13,19 @@ createBrandController = (req, res) => {
 // find all
 findBrandsController = (req, res) => {
   brandModel.findBrands()
-    .then(data => res.json(RES_DATA_SUCCESS('find categories success', 200, data)))
-    .catch(err => res.json(RES_DATA_FAIL('find categories fail', 400, err)))
+    .then(data => res.json(RES_DATA_SUCCESS('find brands success', 200, data)))
+    .catch(err => res.json(RES_DATA_FAIL('find brands fail', 400, err)))
 };
 // find by id
 findBrandByIdController = (req, res) => {
   brandModel.findBrandById(req.params.brand_id)
-    .then(data => res.json(RES_DATA_SUCCESS('find brand by id success', 200, data)))
+    .then(data => {
+      if (data.length < 1) {
+        res.json(NOT_EXIST('brand'))
+        return
+      }
+      res.json(RES_DATA_SUCCESS('find brand by id success', 200, data))
+    })
     .catch(err => res.json(RES_DATA_FAIL('find brand by id fail', 400, err)))
 };
 // update
